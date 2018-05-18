@@ -28,7 +28,7 @@ cargar_tablero:
     ldy     #puzzle_lista
     leax    b,y
     jsr     imprime_cadena
-    parada:
+    ;parada:
     rts
 
 limpiar:
