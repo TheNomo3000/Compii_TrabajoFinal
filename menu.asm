@@ -6,9 +6,9 @@
         titulo:             .asciz  "Puzzle"
         opciones:           .asciz  "\n 1) Jugar \n 2) Instrucciones \n 3) Salir\n"
         opcion_11:          .asciz  "\n Introduce el numero de puzzle (1 al 8):"
-        tutorial:           .ascii  "\n Instrucciones:\n\t-Mueve las fichas para completar el tablero"
+        tutorial:           .ascii  "\n Instrucciones:\n\n\t-Mueve las fichas para completar el tablero"
                             .asciz  "\n\t-Mueve la ficha presionando su letra\n\n"
-        continuar:             .asciz  "\nPresiona una tecla para continuar...   "
+        continuar:          .asciz  "\nPresiona una tecla para continuar...   "
 
         .globl 	iniciar_menu
 
@@ -54,6 +54,7 @@ Instrucciones:
     bra     iniciar_menu
 
 pedir_numero:
+    parada:
     jsr     limpiar
     ldx	    #opcion_11
 	jsr	    imprime_cadena
