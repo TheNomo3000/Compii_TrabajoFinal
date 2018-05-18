@@ -4,7 +4,7 @@
         fin     	.equ 	0xFF01
         teclado		.equ	0xFF02
         pantalla 	.equ 	0xFF00
-        clearScreen:		.asciz  "\33[2J"
+        clearScreen:		.asciz  "\n\33[2J"               ;añadido un retorno de carro para que el menú no salga con espacios
         titulo1:       .asciz  "Cargando Tablero....\n"
 
         contador:   .byte 1
@@ -38,23 +38,6 @@ limpiar:
 
 
 ;Imprimir tablero
-
-imprime:
-	pshs	a
-    cmpb    4
-    bhi     acabar
-
-    sgte_letra:
-        cmp contador
-        lda 	,x+
-        beq	    imprimir_letra
-        sta 	pantalla
-        bra 	sgte
-    aumentar:
-    incb
-imprimir_letra:
-	puls	a
-	rts
 
 
 ;contador hasta 16 y retorno de carro cada 4
