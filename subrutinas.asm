@@ -4,7 +4,7 @@
         fin     	.equ 	0xFF01
         teclado		.equ	0xFF02
         pantalla 	.equ 	0xFF00
-        clearScreen:		.asciz  "\33[2J"
+        clearScreen:		.asciz  "\n\33[2J"               ;añadido un retorno de carro para que el menú no salga con espacios
         titulo1:       .asciz  "Cargando Tablero....\n"
 
         contador:   .byte 1
@@ -28,7 +28,7 @@ cargar_tablero:
     ldy     #puzzle_lista
     leax    b,y
     jsr     imprime_cadena
-    parada:
+    ;parada:
     rts
 
 limpiar:
