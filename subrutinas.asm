@@ -1,20 +1,20 @@
         .module subrutinas
         
-        fin     	    .equ 	0xFF01
-        teclado		    .equ	0xFF02
-        pantalla 	    .equ 	0xFF00
+        ; definicion de constantes
+        fin     	.equ 	0xFF01
+        teclado		.equ	0xFF02
+        pantalla 	.equ 	0xFF00
+        clearScreen:    .asciz  "\n\33[2J"
+        titulo2:        .asciz  "\t\33[36m!A JUGAR!\n\n"
+        divisor:        .asciz  "\33[35m\n==========================\n\n\33[0m\33[1m"
+        barra:		    .asciz	"\33[35m=========\n\33[0m\33[1m"
+        opcion:         .asciz  "Selecciona la letra que quieres mover: "
+
+        Magenta:            .asciz  "\33[35m"
+        Cyan:               .asciz  "\33[36m"
 
         cont:           .byte 0x00
 
-        .globl  clearScreen
-        .globl  titulo_jugar
-        .globl  divisor
-        .globl  barra
-        .globl  selecciona
-        .globl  barra_pie
-        .globl  magenta
-        .globl  cyan
-        
         .globl  limpiar
         .globl  imprime_cadena
         .globl  cargar_tablero
@@ -34,14 +34,14 @@ cargar_tablero:
     lslb
     lslb
     
-    ldx     #puzzle_lista
-    leay    b,x
+    ldy     #puzzle_lista
+    leax    b,y
     jsr     imprime_tablero
     ldx     #barra
     jsr     imprime_cadena
     
     jsr     imprimir_divisor
-    ldx     #selecciona
+    ldx     #opcion
     jsr     imprime_cadena
 
     pausa:  lda teclado
@@ -55,7 +55,7 @@ limpiar:
     rts
 
 imprimir_titulo:
-    ldx     #titulo_jugar
+    ldx     #titulo2
     jsr     imprime_cadena
     jsr     imprimir_divisor
     rts
@@ -77,14 +77,15 @@ imprime_tablero:
     sta     pantalla
 
     bucle:
-        ldx     #barra_pie
-        jsr     imprime_cadena
+        lda     #0x7C
+        sta     pantalla
         lda     cont
         
         cmpa    #1
         blo     continuar
         lda     #'\n
         sta     pantalla
+        
         lda     #'\t
         sta     pantalla
 
@@ -94,9 +95,10 @@ imprime_tablero:
         lda     #0x7C
         sta     pantalla
 
-
         continuar:
         
+        ldx     #Cyan
+        jsr     imprime_cadena
         inc     cont
         lda     cont
         clrb
@@ -104,10 +106,7 @@ imprime_tablero:
         bhi     acaba
         sgte_tab:
             cmpb    #4
-            bhs     bucle  
-            ldx     #cyan
-            jsr     imprime_cadena
-
+            bhs     bucle
             lda     ,y+
             sta 	pantalla
             cmpb    #3
@@ -119,6 +118,8 @@ imprime_tablero:
             bra 	sgte_tab
 acaba:
     rts
+
+;contador hasta 16 y retorno de carro cada 4
 
 imprime_cadena:
 	pshs	a
