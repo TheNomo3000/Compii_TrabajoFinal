@@ -10,8 +10,8 @@
         barra:		    .asciz	"\33[35m=========\n\33[0m\33[1m"
         opcion:         .asciz  "Selecciona la letra que quieres mover: "
 
-        Magenta:            .asciz  "\33[35m"
-        Cyan:               .asciz  "\33[36m"
+        Magenta:        .asciz  "\33[35m"
+        Cyan:           .asciz  "\33[36m"
 
         cont:           .byte 0x00
 
@@ -34,8 +34,8 @@ cargar_tablero:
     lslb
     lslb
     
-    ldy     #puzzle_lista
-    leax    b,y
+    ldx     #puzzle_lista
+    leay    b,x
     jsr     imprime_tablero
     ldx     #barra
     jsr     imprime_cadena
