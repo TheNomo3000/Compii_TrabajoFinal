@@ -14,13 +14,19 @@
         .globl  barra_pie
         .globl  magenta
         .globl  cyan
+
+        .globl  iniciar_menu
         
         .globl  limpiar
         .globl  imprime_cadena
         .globl  cargar_tablero
+
+        .globl  jugar
         
         .globl  puzzle_lista
         .globl  puzzle_numero
+
+        
 
 cargar_tablero:
     jsr     limpiar
@@ -43,11 +49,9 @@ cargar_tablero:
     jsr     imprimir_divisor
     ldx     #selecciona
     jsr     imprime_cadena
-
-    pausa:  lda teclado
-    clr     puzzle_numero
-    
-    rts
+    clr     cont
+    jsr     jugar
+    jsr     iniciar_menu
 
 limpiar:
     ldx     #clearScreen

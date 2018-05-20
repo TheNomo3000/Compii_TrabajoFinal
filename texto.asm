@@ -28,14 +28,15 @@
     introducir1:    .asciz "Introduce el numero de puzzle (1 al 8):"
     introducir2:    .asciz "\33[33mCaracter invalido.\n\33[0m\33[1mIntroduce el numero de puzzle (1 al 8):"
     tutorial:       .ascii  "\n Instrucciones:\n\n\t-Mueve las fichas para completar el tablero"
-                    .asciz  "\n\t-Mueve la ficha presionando su letra\n\n"
+                    .ascii  "\n\t-Mueve las fichas presionando wasd (arriba, izquierda, abajo y derecha respectivamente)\n\n"
+                    .asciz  ""
     continuar:      .asciz  "\nPresiona una tecla para continuar...   "
 
     clearScreen:    .asciz  "\n\33[2J"
     titulo_jugar:   .asciz  "\t\33[36m!A JUGAR!\n"
     divisor:        .asciz  "\33[35m\n==========================\n\n\33[0m\33[1m"
     barra:		    .asciz	"\33[35m=========\n\33[0m\33[1m"
-    selecciona:     .asciz  "\33[32m(Presiona Esc para salir)\n\33[37mSelecciona la letra que quieres mover: "
+    selecciona:     .asciz  "\33[32m(Presiona Esc para salir)\n\33[37mMueve lass fichas con wasd: "
     escoger:        .asciz  "\nSelecciona la opcion que deseas : "
 
     barra_pie:      .asciz  "\33[35m|"
