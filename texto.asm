@@ -5,7 +5,8 @@
     .globl  titulo1_2
     .globl  titulo1_3
     .globl  opciones
-    .globl  introducir
+    .globl  introducir1
+    .globl  introducir2
     .globl  tutorial
     .globl  continuar
     .globl  clearScreen
@@ -24,13 +25,14 @@
     titulo1_3:      .asciz  "   |   \t      |   \n    \33[35m==========\n\n"
 
     opciones:       .asciz  "\33[0m\33[1m\n 1) Jugar \n 2) Instrucciones \n 3) Salir\n"
-    introducir:     .asciz  "\n Introduce el numero de puzzle (1 al 8):"
-    tutorial:       .ascii  "\n Instrucciones:\n\t-Mueve las fichas para completar el tablero"
+    introducir1:    .asciz "Introduce el numero de puzzle (1 al 8):"
+    introducir2:    .asciz "\33[33mCaracter invalido.\n\33[0m\33[1mIntroduce el numero de puzzle (1 al 8):"
+    tutorial:       .ascii  "\n Instrucciones:\n\n\t-Mueve las fichas para completar el tablero"
                     .asciz  "\n\t-Mueve la ficha presionando su letra\n\n"
     continuar:      .asciz  "\nPresiona una tecla para continuar...   "
 
     clearScreen:    .asciz  "\n\33[2J"
-    titulo_jugar:   .asciz  "\t\33[36m!A JUGAR!\n\n"
+    titulo_jugar:   .asciz  "\t\33[36m!A JUGAR!\n"
     divisor:        .asciz  "\33[35m\n==========================\n\n\33[0m\33[1m"
     barra:		    .asciz	"\33[35m=========\n\33[0m\33[1m"
     selecciona:     .asciz  "\33[32m(Presiona Esc para salir)\n\33[37mSelecciona la letra que quieres mover: "
