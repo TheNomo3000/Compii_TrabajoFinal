@@ -2,119 +2,70 @@
 
         teclado		    .equ	0xFF02
         pantalla 	    .equ 	0xFF00
-
+        
         aciertos:       .byte   0x00
         movimientos:    .byte   0x00
 
-        .globl  aciertostxt
-        .globl  movimientostxt
-        .globl  clearScreen
-        .globl  titulo_jugar
-        .globl  divisor
-        .globl  barra
-        .globl  selecciona
-        .globl  barra_pie
-        .globl  magenta
-        .globl  cyan
         .globl  solucion
-        .globl  cont
 
         .globl  imprime_cadena
         .globl  limpiar
         .globl  iniciar_menu
+        .globl  cont
 
         .globl  puzzle_numero
         .globl  puzzle_lista
        
         .globl  jugar
-
-
-
-
-
+        .globl  aciertos
+        .globl  movimientos
+        
+        .globl  ganar
+        .globl  continuar
 jugar:
     clr     aciertos
     clr     movimientos
-    cargar_tablero2:
-
-    ldb     puzzle_numero
-    subb    #1
- 
-    lslb
-    lslb    
-    lslb
-    lslb
     
-    ldx     #puzzle_lista
-    leay    b,x
-
-    jugar2:
-    clra
-    pshs    a
-
-    jsr     limpiar
-    ldx     #titulo_jugar
-    jsr     imprime_cadena
-    ldx     #divisor
-    jsr     imprime_cadena
-    ldx     #aciertostxt
-    jsr     imprime_cadena
-    inc     aciertos
-    lda     #aciertos
-    sta     pantalla
-    lda     #'\n
-    sta     pantalla
-    
-    puls    a
-
-    jsr     imprime_tablero2
-    ldx     #barra
-    jsr     imprime_cadena
-    ldx     #movimientostxt
-    jsr     imprime_cadena
-    ldx     movimientostxt
-    sta     pantalla
-    ldx     #divisor
-    jsr     imprime_cadena
-    ldx     #selecciona
-    jsr     imprime_cadena
-    lda     teclado
-    jsr     jugar2
-    jsr     iniciar_menu
-
+mover:
     lda     teclado
 
-    imprime_tablero2:
+opt_a:
+    cmpa    #'a
+    beq     left
+
+opt_w:
+    cmpa    #'w
+    beq     up
+
+opt_s:
+    cmpa    #'s
+    beq     down
+    
+opt_d:
+    cmpa    #'d
+    beq     right
+
+opt_esc:
+    cmpa    #0x1B
+    beq     reiniciar
+    bra     mover
+
+
+left:
+    
+up:
+
+down:
+
+right:
+    ldx     #solucion
+    jsr     imprime_cadena
+    lda     teclado
+    rts
+
+comprobar:
     clr     cont
-    lda     #'\t
-    sta     pantalla
-    ldx     #barra
-    jsr     imprime_cadena
-
-    lda     #'\t
-    sta     pantalla
-
-    bucle2:
-        ldx     #barra_pie
-        jsr     imprime_cadena
-        lda     cont
-        
-        cmpa    #1
-        blo     continuar2
-        lda     #'\n
-        sta     pantalla
-        lda     #'\t
-        sta     pantalla
-
-        lda     cont
-        cmpa    #4
-        bhs     continuar2
-        lda     #0x7C
-        sta     pantalla
-
-
-        continuar2:
-        
+    bucle:
         inc     cont
         lda     cont
         clrb
@@ -122,18 +73,21 @@ jugar:
         bhi     acaba
         sgte_tab:
             cmpb    #4
-            bhs     bucle2
-            ldx     #cyan
-            jsr     imprime_cadena
+            bhs     bucle  
 
-            lda     ,y+
-            sta 	pantalla
-            cmpb    #3
-            bhs     saltar
-            lda     #0x20
-            sta     pantalla
-            saltar:
+            ;comprobar
+
             incb
             bra 	sgte_tab
 acaba:
+    ;ganar
     rts
+
+ganar:
+    ldx     #ganar
+    jsr     imprime_cadena
+    ldx     #continuar
+    jsr     imprime_cadena
+    lda     teclado
+reiniciar:
+    jsr iniciar_menu
