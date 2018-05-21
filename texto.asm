@@ -18,6 +18,9 @@
     .globl  magenta
     .globl  cyan
     .globl  escoger
+    .globl  aciertostxt
+    .globl  movimientostxt
+    .globl  solucion
     
 
     titulo1_1:      .asciz  "    \33[1m\33[35m==========\n   |   \t      |   \n"
@@ -34,14 +37,19 @@
 
     clearScreen:    .asciz  "\n\33[2J"
     titulo_jugar:   .asciz  "\t\33[36m!A JUGAR!\n"
-    divisor:        .asciz  "\33[35m\n==========================\n\n\33[0m\33[1m"
+    divisor:        .asciz  "\33[35m\n==========================\n\33[0m\33[1m"
     barra:		    .asciz	"\33[35m=========\n\33[0m\33[1m"
-    selecciona:     .asciz  "\33[32m(Presiona Esc para salir)\n\33[37mMueve lass fichas con wasd: "
+    selecciona:     .asciz  "\33[32m(Presiona Esc para salir)\n\33[37mMueve las fichas con wasd: "
     escoger:        .asciz  "\nSelecciona la opcion que deseas : "
-
     barra_pie:      .asciz  "\33[35m|"
     magenta:        .asciz  "\33[35m"
     cyan:           .asciz  "\33[36m"
+
+    aciertostxt:    .asciz  "\tAciertos: "
+    movimientostxt: .asciz  "\tMovimientos: "
+    solucion:       .asciz  "ABCDEFGHIJKLMNO "
+
+  
         
 
     ;Red:                .asciz  "\33[31m"

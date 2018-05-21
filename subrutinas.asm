@@ -6,6 +6,7 @@
 
         cont:           .byte 0x00
 
+
         .globl  clearScreen
         .globl  titulo_jugar
         .globl  divisor
@@ -14,26 +15,32 @@
         .globl  barra_pie
         .globl  magenta
         .globl  cyan
+        .globl  aciertostxt
+        .globl  movimientostxt
 
         .globl  iniciar_menu
         
         .globl  limpiar
         .globl  imprime_cadena
         .globl  cargar_tablero
+        .globl  cont
+        .globl  imprimir_divisor
+        .globl  imprimir_titulo
 
         .globl  jugar
         
         .globl  puzzle_lista
         .globl  puzzle_numero
 
-        
+        .globl  aciertos
+        .globl  movimientos
 
 cargar_tablero:
     jsr     limpiar
-    jsr     imprimir_titulo
-
+    
     ldb     puzzle_numero
     subb    #1
+
  
     lslb
     lslb    
@@ -43,15 +50,25 @@ cargar_tablero:
     ldx     #puzzle_lista
     leay    b,x
     jsr     imprime_tablero
-    ldx     #barra
-    jsr     imprime_cadena
-    
-    jsr     imprimir_divisor
-    ldx     #selecciona
-    jsr     imprime_cadena
-    clr     cont
+   
     jsr     jugar
-    jsr     iniciar_menu
+
+imprime_aciertos:
+    ldx     #aciertostxt
+    jsr     imprime_cadena
+    ldx     #aciertos
+    jsr     imprime_cadena
+    lda     #'\n
+    sta     pantalla
+    rts
+
+imprime_movimientos:
+    ldx     #movimientostxt
+    jsr     imprime_cadena
+    lda     #movimientos
+    sta     teclado
+    rts
+    
 
 limpiar:
     ldx     #clearScreen
@@ -72,6 +89,9 @@ imprimir_divisor:
 ;Imprimir tablero
 
 imprime_tablero:
+    jsr     imprimir_titulo
+    jsr     imprime_aciertos
+    clr     cont
     lda     #'\t
     sta     pantalla
     ldx     #barra
@@ -122,6 +142,12 @@ imprime_tablero:
             incb
             bra 	sgte_tab
 acaba:
+    ldx     #barra
+    jsr     imprime_cadena
+    jsr     imprime_movimientos
+    jsr     imprimir_divisor
+    ldx     #selecciona
+    jsr     imprime_cadena
     rts
 
 imprime_cadena:
