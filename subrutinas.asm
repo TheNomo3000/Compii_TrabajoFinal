@@ -20,6 +20,9 @@
         .globl  limpiar
         .globl  imprime_cadena
         .globl  cargar_tablero
+        .globl  cont
+        .globl  imprimir_divisor
+        .globl  imprimir_titulo
 
         .globl  jugar
         
@@ -29,27 +32,26 @@
         
 
 cargar_tablero:
-    jsr     limpiar
-    jsr     imprimir_titulo
+    ;jsr     limpiar
+    ;jsr     imprimir_titulo
 
-    ldb     puzzle_numero
-    subb    #1
+    ;ldb     puzzle_numero
+    ;subb    #1
  
-    lslb
-    lslb    
-    lslb
-    lslb
+    ;lslb
+    ;lslb    
+    ;lslb
+    ;lslb
     
-    ldx     #puzzle_lista
-    leay    b,x
-    jsr     imprime_tablero
-    ldx     #barra
-    jsr     imprime_cadena
-    
-    jsr     imprimir_divisor
-    ldx     #selecciona
-    jsr     imprime_cadena
-    clr     cont
+    ;ldx     #puzzle_lista
+    ;leay    b,x
+    ;jsr     imprime_tablero
+    ;ldx     #barra
+    ;jsr     imprime_cadena
+    ;jsr     imprimir_divisor
+    ;ldx     #selecciona
+    ;jsr     imprime_cadena
+    ;lda     teclado
     jsr     jugar
     jsr     iniciar_menu
 
@@ -72,6 +74,7 @@ imprimir_divisor:
 ;Imprimir tablero
 
 imprime_tablero:
+    clr     cont
     lda     #'\t
     sta     pantalla
     ldx     #barra
