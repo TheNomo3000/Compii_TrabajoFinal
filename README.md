@@ -2,7 +2,7 @@
 Trabajo realizado para computadores II (2018) por Rodrigo Zavala Zevallos y Fiz Rey Armesto
 <h2>Ensamblador</h2>
 
-El trabajo consiste en un puzzle que hay que ordenar.Está realizado en ensamblador para el chip motorola 6809.
+El trabajo consiste en un puzzle que hay que ordenar. Está realizado en ensamblador para el chip motorola 6809.
 El programa está dividido en en 6 archivos:
 
 programa.asm:
