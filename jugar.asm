@@ -31,10 +31,7 @@
         .globl  mover_ficha
         .globl  imprime_tablero
         .globl  guardar_tablero
-        .globl  down
-        .globl  up
-        .globl  left
-        .globl  right
+
 
 seguir_jugando:
     lda     #'\0
@@ -113,154 +110,177 @@ jugar:
     clrb
     ldx     #tablero
     jsr     obtener_pos
-    
+
 mover:
+clra
     lda     teclado
     ldb     pos
     pos_0:
         cmpb    #0x00
         bne     pos_1
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
     pos_1:
         cmpb    #0x01
         bne     pos_2
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
     pos_2:
         cmpb    #0x02
         bne     pos_3
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
     pos_3:
         cmpb    #0x03
         bne     pos_4
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
     pos_4:
         cmpb    #0x04
         bne     pos_5
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
+        jsr     pos_5
+
+    saltar_dwn:
+        jsr     down
+    saltar_rgh:
+        jsr     right
+    saltar_up:
+        jsr     up
+    saltar_lft:
+        jsr     left
+
     pos_5:
         cmpb    #0x05
         bne     pos_6
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
     pos_6:
         cmpb    #0x06
         bne     pos_7
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
     pos_7:
         cmpb    #0x07
         bne     pos_8
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
     pos_8:
         cmpb    #0x08
         bne     pos_9
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
     pos_9:
         cmpb    #0x09
         bne     pos_10
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq    saltar_rgh
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
     pos_10:
         cmpb    #0x0A
         bne     pos_11
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh
         cmpa    #'w
-        beq     up
+        beq     saltar_up
         cmpa    #'a
-        beq     left
+        beq     saltar_lft
+        jsr     pos_11
+
+        saltar_dwn2:
+        jsr     down
+    saltar_rgh2:
+        jsr     right
+    saltar_up2:
+        jsr     up
+    saltar_lft2:
+        jsr     left
+
     pos_11:
         cmpb    #0x0B
         bne     pos_12
         cmpa    #'s
-        beq     down
+        beq     saltar_dwn2
         cmpa    #'w
-        beq     up
+        beq     saltar_up2
         cmpa    #'a
-        beq     left
+        beq     saltar_lft2
     pos_12:
         cmpb    #0x0C
         bne     pos_13
         cmpa    #'w
-        beq     up
+        beq     saltar_up2
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh2
     pos_13:
         cmpb    #0x0D
         bne     pos_14
         cmpa    #'w
-        beq     up
+        beq     saltar_up2
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh2
         cmpa    #'a
-        beq     left
+        beq     saltar_lft2
     pos_14:
         cmpb    #0x0E
         bne     pos_15
         cmpa    #'w
-        beq     up
+        beq     saltar_up2
         cmpa    #'d
-        beq     right
+        beq     saltar_rgh2
         cmpa    #'a
-        beq     left
+        beq     saltar_lft2
     pos_15:
         cmpb    #0x0F
         bne     pos_centro
         cmpa    #'w
-        beq     up
+        beq     saltar_up2
         cmpa    #'a
-        beq     left
+        beq     saltar_lft2
     pos_centro: 
         jsr fallo
 opt_esc:
@@ -272,7 +292,7 @@ otros:
     sta     pantalla
     ldx     #error
     jsr     imprime_cadena
-    bra     jugar
+    jsr     jugar
 
 ganar:
     ldx     #ganar
@@ -290,4 +310,6 @@ fallo:
     jsr     imprime_cadena
     lda     teclado
     jsr     mover
+
+
 

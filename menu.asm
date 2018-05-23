@@ -10,7 +10,7 @@
         .globl  titulo1_3
         .globl  opciones
         .globl  introducir1
-        .globl  error
+        .globl  introducir2
         .globl  tutorial
         .globl  continuartxt
         .globl  escoger
@@ -79,9 +79,7 @@ pedir_numero:
     sta     puzzle_numero
     jsr     cargar_tablero
 cn: jsr     limpiar
-    ldx     #error
-    jsr     imprime_cadena
-    ldx     #introducir1
+    ldx     #introducir2
     jsr     imprime_cadena
     lda     teclado
     cmpa    #'1

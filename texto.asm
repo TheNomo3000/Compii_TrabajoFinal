@@ -8,7 +8,7 @@
     .globl  introducir1
     .globl  introducir2
     .globl  tutorial
-    .globl  continuar
+    .globl  continuartxt
     .globl  clearScreen
     .globl  titulo_jugar
     .globl  divisor
@@ -21,6 +21,9 @@
     .globl  aciertostxt
     .globl  movimientostxt
     .globl  solucion
+    .globl  error_movimiento
+    .globl  error
+    .globl  mover_ficha
     
 
     titulo1_1:      .asciz  "    \33[1m\33[35m==========\n   |   \t      |   \n"
@@ -33,7 +36,7 @@
     tutorial:       .ascii  "\n Instrucciones:\n\n\t-Mueve las fichas para completar el tablero"
                     .ascii  "\n\t-Mueve las fichas presionando wasd (arriba, izquierda, abajo y derecha respectivamente)\n\n"
                     .asciz  ""
-    continuar:      .asciz  "\nPresiona una tecla para continuar...   "
+    continuartxt:      .asciz  "\nPresiona una tecla para continuar...   "
 
     clearScreen:    .asciz  "\n\33[2J"
     titulo_jugar:   .asciz  "\t\33[36m!A JUGAR!\n"
@@ -48,6 +51,9 @@
     aciertostxt:    .asciz  "\tAciertos: "
     movimientostxt: .asciz  "\tMovimientos: "
     solucion:       .asciz  "ABCDEFGHIJKLMNO "
+    error:          .asciz  "Error"
+    error_movimiento:.asciz "Error de movimiento"
+    mover_ficha:    .asciz  "Mover ficha"
 
   
         
