@@ -85,7 +85,7 @@ guardar_tablero:
             bra 	sgte_guardar
 finalizar:
     lda     #'\0
-    sta     ,x+
+    sta     ,x ;e
     rts
 
 obtener_pos:
@@ -217,3 +217,5 @@ reiniciar:
     clr     pos
     clr     puzzle_lista
     jsr     programa
+
+

@@ -32,18 +32,11 @@
         .globl  imprime_tablero
         .globl  guardar_tablero
         .globl  reiniciar
- 
-
 jugar:
-    clr     movimientos
-    clr     tablero_temp
-    clra
-    clrb
     ldx     #tablero
     jsr     obtener_pos
-    ldx     #tablero
+    
 mover:
-clra
     lda     teclado
     jsr     opt_esc
     ldb     pos
@@ -217,13 +210,60 @@ clra
         jsr fallo
 
 left:
+    parar:
+    clr     tablero_temp
+    ldy     #tablero
+    ldx     #tablero_temp
+    clr     cont
+    lda     pos
+    suba    #0x01
+    sta     pos
+    clra
+    pshs    a
+    bucle_left:
+        inc     cont
+        lda     cont
+        clrb
+        cmpa    #4
+        bhi     seguir_jugando_aux
+        sgte_left:
+            cmpb    #4
+            bhs     bucle_left
+            puls    a
+            pshs    b
+
+            pshs    a
+            ldb 	,y+
+
+            cmpa    pos
+            bne     salta_left
+            ldb     #0x20
+            stb     ,x+
+            ldb     ,y+
+
+            salta_left:
+            jsr     corregir_c
+            stb     ,x+
+            
+            puls    a
+            inca
+            puls    b
+            incb
+            pshs    a
+            bra 	sgte_left
 up:
+
+seguir_jugando_aux:
+    jsr seguir_jugando
+
 down:
+    clr     tablero_temp
     ldy     #tablero
     ldx     #tablero_temp
     clrb
     clr     cont
     bucle_down:
+    
         lda 	,y+
         beq     seguir_jugando
 
@@ -273,6 +313,7 @@ cambiar:
     bra     continuar_down
 
 right:
+    clr     tablero_temp
     ldy     #tablero
     ldx     #tablero_temp
     clr     cont
@@ -291,10 +332,7 @@ right:
             pshs    b
 
             pshs    a
-
             ldb 	,y+
-
-              
 
             cmpa    pos
             bne     salta_rigth
@@ -320,20 +358,28 @@ right:
 
 seguir_jugando:
     lda     #'\0
-    sta     ,x+
-
-    ;ldx     #tablero
-    ;jsr     imprime_cadena
-    ldx     #tablero_temp
-    jsr     imprime_cadena
-    ;jsr     guardar_tablero
-    ;ldy     #tablero
+    sta     ,x
     ldy     #tablero_temp
+    jsr     guardar_tablero
+    ldy     #tablero
     jsr     imprime_tablero
-    jsr     jugar
+    break:
+    ldx     #tablero
+    jsr     obtener_pos
+    jsr     mover
+
+corregir_c:
+    cmpb    #0x00
+    beq     corrige
+    cmpb    #0x03
+    bhi     corrige
+    cmpb    #0x08
+    bhi     corrige    
+    rts
+    corrige:
+    ldb     #0x43
     rts
 
-   
 opt_esc:
     cmpa    #0x1B
     bne     back
