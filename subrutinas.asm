@@ -4,8 +4,9 @@
         teclado		    .equ	0xFF02
         pantalla 	    .equ 	0xFF00
 
-        cont:           .byte 0x00
-
+        cont:           .byte   0x00
+        tablero:        .word   16
+        pos:            .byte   0
 
         .globl  clearScreen
         .globl  titulo_jugar
@@ -34,13 +35,17 @@
 
         .globl  aciertos
         .globl  movimientos
-
+        .globl  tablero
+        .globl  pos
+        .globl  obtener_pos
+        .globl  imprime_tablero
+        .globl  guardar_tablero
+        
 cargar_tablero:
     jsr     limpiar
     
     ldb     puzzle_numero
     subb    #1
-
  
     lslb
     lslb    
@@ -49,15 +54,56 @@ cargar_tablero:
     
     ldx     #puzzle_lista
     leay    b,x
+    jsr     guardar_tablero
+    ldy     #tablero
+
     jsr     imprime_tablero
-   
+
     jsr     jugar
+
+guardar_tablero:
+    clr     cont
+    clr     tablero
+    ldx     #tablero
+    bucle_guardado:
+        inc     cont
+        lda     cont
+        clrb
+        cmpa    #4
+        bhi     finalizar
+        sgte_guardar:
+            cmpb    #4
+            bhs     bucle_guardado
+
+            lda     ,y+
+            sta 	,x+
+            
+            incb
+            bra 	sgte_guardar
+finalizar:
+    lda     #'\0
+    sta     ,x+
+    rts
+
+obtener_pos:
+    clr     pos
+    pshs	a
+    sgte_pos:	
+        lda 	,x+
+        cmpa    #0x20
+        beq     finalizar_pos
+        inc     pos
+        bra 	sgte_pos
+finalizar_pos:
+    puls    a
+    rts
 
 imprime_aciertos:
     ldx     #aciertostxt
     jsr     imprime_cadena
     ldx     #aciertos
     jsr     imprime_cadena
+
     lda     #'\n
     sta     pantalla
     rts

@@ -10,9 +10,9 @@
         .globl  titulo1_3
         .globl  opciones
         .globl  introducir1
-        .globl  introducir2
+        .globl  error
         .globl  tutorial
-        .globl  continuar
+        .globl  continuartxt
         .globl  escoger
 
         .globl  cargar_tablero
@@ -25,6 +25,7 @@
 
 iniciar_menu:
     jsr     limpiar
+
     ldx	    #titulo1_1
 	jsr	    imprime_cadena
     ldx	    #titulo1_2
@@ -59,12 +60,13 @@ instrucciones:
     jsr     limpiar
     ldx     #tutorial
     jsr	    imprime_cadena
-    ldx     #continuar
+    ldx     #continuartxt
     jsr	    imprime_cadena
     lda     teclado
     bra     iniciar_menu
 
 pedir_numero:
+    clra
     jsr     limpiar
     ldx	    #introducir1
 	jsr	    imprime_cadena
@@ -77,7 +79,9 @@ pedir_numero:
     sta     puzzle_numero
     jsr     cargar_tablero
 cn: jsr     limpiar
-    ldx     #introducir2
+    ldx     #error
+    jsr     imprime_cadena
+    ldx     #introducir1
     jsr     imprime_cadena
     lda     teclado
     cmpa    #'1
