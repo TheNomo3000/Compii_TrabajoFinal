@@ -40,6 +40,8 @@
         .globl  obtener_pos
         .globl  imprime_tablero
         .globl  guardar_tablero
+        .globl  reiniciar
+        .globl  programa
         
 cargar_tablero:
     jsr     limpiar
@@ -58,7 +60,8 @@ cargar_tablero:
     ldy     #tablero
 
     jsr     imprime_tablero
-
+    ldx     #tablero
+    jsr     imprime_cadena
     jsr     jugar
 
 guardar_tablero:
@@ -205,3 +208,12 @@ sgte:	lda 	,x+
 ret_imprime_cadena:
 	puls	a
 	rts
+
+reiniciar:
+    clra
+    clrb
+    clr     tablero
+    clr     puzzle_numero
+    clr     pos
+    clr     puzzle_lista
+    jsr     programa

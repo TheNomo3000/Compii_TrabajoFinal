@@ -31,77 +31,8 @@
         .globl  mover_ficha
         .globl  imprime_tablero
         .globl  guardar_tablero
-
-
-seguir_jugando:
-    lda     #'\0
-    sta     ,x+
-
-    ldy     #tablero_temp
-    ;jsr     imprime_cadena
-    jsr     guardar_tablero
-    ldy     #tablero
-    jsr     imprime_tablero
-    jsr     jugar
-    rts
-
-cambiar:
-    clrb
-    bucle_cambiar:
-        incb
-        lda 	,y+
-        cmpb    #0x04
-        blo     bucle_cambiar
-        sta     ,x+
-    puls    y
-    lda     ,y+
-    bra     continuar_down
-
-left:
-up:
-down:
-    ldy     #tablero
-    ldx     #tablero_temp
-    clrb
-    clr     cont
-    bucle_down:
-        lda 	,y+
-        beq     seguir_jugando
-
-        pshs    b
-        pshs    y
-
-        cmpb    pos
-        beq     cambiar
-        puls    y
-        continuar_down:
-        cmpb    pos
-        bls     salta
-        inc     cont
-
-        salta:
-        ldb     cont
-        
-        parada:
-
-        cmpb    #0x04
-        bne     salta_2
-        lda     #0x20
-        salta_2:
-
-        ;
-        cmpa    #0x03
-        bne     salta_3
-        lda     #0x43
-        ;
-
-        salta_3:
-        puls    b
-        sta     ,x+
-        incb
-        bra 	bucle_down
-right:
-    
+        .globl  reiniciar
+ 
 
 jugar:
     clr     movimientos
@@ -110,10 +41,11 @@ jugar:
     clrb
     ldx     #tablero
     jsr     obtener_pos
-
+    ldx     #tablero
 mover:
 clra
     lda     teclado
+    jsr     opt_esc
     ldb     pos
     pos_0:
         cmpb    #0x00
@@ -283,9 +215,131 @@ clra
         beq     saltar_lft2
     pos_centro: 
         jsr fallo
+
+left:
+up:
+down:
+    ldy     #tablero
+    ldx     #tablero_temp
+    clrb
+    clr     cont
+    bucle_down:
+        lda 	,y+
+        beq     seguir_jugando
+
+        pshs    b
+        pshs    y
+
+        cmpb    pos
+        beq     cambiar
+        puls    y
+        continuar_down:
+        cmpb    pos
+        bls     salta
+        inc     cont
+
+        salta:
+        ldb     cont
+        
+        parada:
+
+        cmpb    #0x04
+        bne     salta_2
+        lda     #0x20
+        salta_2:
+
+        ;
+        cmpa    #0x03
+        bne     salta_3
+        lda     #0x43
+        ;
+
+        salta_3:
+        puls    b
+        sta     ,x+
+        incb
+        bra 	bucle_down
+
+cambiar:
+    clrb
+    bucle_cambiar:
+        incb
+        lda 	,y+
+        cmpb    #0x04
+        blo     bucle_cambiar
+        sta     ,x+
+    puls    y
+    lda     ,y+
+    bra     continuar_down
+
+right:
+    ldy     #tablero
+    ldx     #tablero_temp
+    clr     cont
+    clra
+    pshs    a
+    bucle_right:
+        inc     cont
+        lda     cont
+        clrb
+        cmpa    #4
+        bhi     seguir_jugando
+        sgte_right:
+            cmpb    #4
+            bhs     bucle_right
+            puls    a
+            pshs    b
+
+            pshs    a
+
+            ldb 	,y+
+
+              
+
+            cmpa    pos
+            bne     salta_rigth
+            ldb     ,y+
+            stb     ,x+
+            ldb     #0x20
+
+            salta_rigth:
+            ;
+            cmpb    #0x08
+            bne     salta_rigth_2
+            ldb     #0x43
+            salta_rigth_2:
+            ;
+            stb     ,x+
+            
+            puls    a
+            inca
+            puls    b
+            incb
+            pshs    a
+            bra 	sgte_right
+
+seguir_jugando:
+    lda     #'\0
+    sta     ,x+
+
+    ;ldx     #tablero
+    ;jsr     imprime_cadena
+    ldx     #tablero_temp
+    jsr     imprime_cadena
+    ;jsr     guardar_tablero
+    ;ldy     #tablero
+    ldy     #tablero_temp
+    jsr     imprime_tablero
+    jsr     jugar
+    rts
+
+   
 opt_esc:
     cmpa    #0x1B
-    beq     reiniciar
+    bne     back
+    jsr     reiniciar
+    back:
+    rts
 
 otros:
     lda     #'\n
@@ -300,8 +354,6 @@ ganar:
     ldx     #continuartxt
     jsr     imprime_cadena
     lda     teclado
-reiniciar:
-    jsr iniciar_menu
 
 fallo:
     ldx     #error_movimiento
