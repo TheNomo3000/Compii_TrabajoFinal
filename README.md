@@ -1,5 +1,5 @@
 # Compii_TrabajoFinal
-Trabajo realizado para computadores II (2018) por Rodrigo Zavala Zevallos y Fiz Rey Armesto
+Trabajo realizado para computadores II (2018) por Rodrigo Zavala Zevallos (80256946X) y Fiz Rey Armesto (34292873B)
 <h2>Ensamblador</h2>
 
 El trabajo consiste en un puzzle que hay que ordenar. Está realizado en ensamblador para el chip motorola 6809.
